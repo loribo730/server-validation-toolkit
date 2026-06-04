@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security or private log concern
+    url: https://github.com/YOUR_NAME/server-validation-toolkit/security/advisories/new
+    about: Please do not paste private logs into public issues.
