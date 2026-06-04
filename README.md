@@ -106,3 +106,33 @@ svt package --input ./test_run_logs --output diagnostic_bundle.tar.gz
 ## License
 
 MIT License.
+
+## Usage examples
+
+Collect diagnostic logs into a local output directory:
+
+    svt collect --output ./svt-output
+
+Sanitize collected logs before sharing:
+
+    svt sanitize ./svt-output --output ./svt-sanitized
+
+Create a compressed diagnostic bundle:
+
+    svt package ./svt-sanitized --output ./svt-bundle.tar.gz
+
+Generate a PCIe summary:
+
+    svt pcie-summary ./svt-sanitized/lspci.txt --output ./pcie-summary.md
+
+Generate a storage summary:
+
+    svt storage-summary ./svt-sanitized/lsblk.txt --output ./storage-summary.md
+
+Generate an IPMI sensor summary:
+
+    svt ipmi-summary ./svt-sanitized/ipmi_sensor.txt --output ./ipmi-summary.md
+
+Generate a combined Markdown report:
+
+    svt report ./svt-sanitized --output ./report.md
