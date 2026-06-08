@@ -171,3 +171,85 @@ def test_parse_lsblk_text_removes_redacted_serial_placeholder() -> None:
 
     assert len(records) == 1
     assert records[0].model == "SAMSUNG MZ7L31T9"
+
+def test_parse_lspci_links_with_missing_link_fields() -> None:
+    """Verify devices without link capability or status fields remain parseable."""
+
+    raw = """
+02:00.0 Ethernet controller [0200]: Example Network Adapter [1234:1000]
+03:00.0 PCI bridge [0604]: Example PCIe Bridge [1234:2000]
+        LnkCap: Port #1, Speed 8GT/s, Width x4, ASPM L0s L1
+    """
+
+    records = parse_lspci_links(raw)
+
+    assert len(records) == 2
+    assert records[0].bdf == "02:00.0"
+    assert records[0].capability_speed is None
+    assert records[0].capability_width is None
+    assert records[0].status_speed is None
+    assert records[0].status_width is None
+    assert records[1].bdf == "03:00.0"
+    assert records[1].capability_speed == "8GT/s"
+    assert records[1].capability_width == "x4"
+    assert records[1].status_speed is None
+    assert records[1].status_width is None
+
+
+def test_parse_lspci_links_with_redacted_description_identifiers() -> None:
+    """Verify sanitized or redacted description text does not break PCIe parsing."""
+
+    raw = """
+04:00.0 Non-Volatile memory controller [0108]: Example NVMe <IDENTIFIER_REDACTED>
+        LnkCap: Port #0, Speed 16GT/s, Width x4, ASPM L1
+        LnkSta: Speed 16GT/s, Width x4
+    """
+
+    records = parse_lspci_links(raw)
+
+    assert len(records) == 1
+    assert records[0].bdf == "04:00.0"
+    assert "<IDENTIFIER_REDACTED>" in records[0].description
+    assert records[0].capability_speed == "16GT/s"
+    assert records[0].capability_width == "x4"
+    assert records[0].status_speed == "16GT/s"
+    assert records[0].status_width == "x4"
+
+
+def test_parse_lspci_links_with_domain_prefixed_bdf() -> None:
+    """Verify lspci -D style domain-prefixed BDF addresses are supported."""
+
+    raw = """
+0000:05:00.0 PCI bridge [0604]: Example Root Port [1234:3000]
+        LnkCap: Port #2, Speed 32GT/s, Width x16, ASPM L1
+        LnkSta: Speed 32GT/s, Width x16
+    """
+
+    records = parse_lspci_links(raw)
+
+    assert len(records) == 1
+    assert records[0].bdf == "0000:05:00.0"
+    assert records[0].description.startswith("PCI bridge")
+    assert records[0].capability_speed == "32GT/s"
+    assert records[0].capability_width == "x16"
+    assert records[0].status_speed == "32GT/s"
+    assert records[0].status_width == "x16"
+
+
+def test_parse_lspci_links_preserves_degraded_link_width_and_speed() -> None:
+    """Verify negotiated link speed and width can be lower than capability."""
+
+    raw = """
+06:00.0 3D controller [0302]: Example Accelerator [1234:4000]
+        LnkCap: Port #0, Speed 32GT/s, Width x16, ASPM L1
+        LnkSta: Speed 2.5GT/s (downgraded), Width x1 (downgraded)
+    """
+
+    records = parse_lspci_links(raw)
+
+    assert len(records) == 1
+    assert records[0].bdf == "06:00.0"
+    assert records[0].capability_speed == "32GT/s"
+    assert records[0].capability_width == "x16"
+    assert records[0].status_speed == "2.5GT/s (downgraded)"
+    assert records[0].status_width == "x1"
