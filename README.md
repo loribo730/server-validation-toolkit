@@ -97,6 +97,15 @@ svt report --input ./test_run_logs --output ./diagnostic_report.md
 svt package --input ./test_run_logs --output diagnostic_bundle.tar.gz
 ```
 
+
+## AI-assisted maintenance
+
+This project may use AI coding agents, including Codex, to assist with issue triage, parser test generation, synthetic example data, changelog drafting, release checklist review, and safe refactoring.
+
+All AI-assisted changes must remain public-safe, pass tests and CI, and be reviewed by a human maintainer before merge.
+
+See [AI maintenance workflow](docs/ai_maintenance_workflow.md) for the project policy.
+
 ## Roadmap
 
 - v1.0.0: Public release baseline with collect, sanitize, package, PCIe summary, storage summary, IPMI summary, and combined report generation.
