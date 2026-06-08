@@ -106,6 +106,12 @@ All AI-assisted changes must remain public-safe, pass tests and CI, and be revie
 
 See [AI maintenance workflow](docs/ai_maintenance_workflow.md) for the project policy.
 
+
+## Release documentation
+
+- See [CHANGELOG.md](CHANGELOG.md) for release history.
+- See [Release checklist](docs/release_checklist.md) for the public-safe release workflow.
+
 ## Roadmap
 
 - v1.0.0: Public release baseline with collect, sanitize, package, PCIe summary, storage summary, IPMI summary, and combined report generation.
