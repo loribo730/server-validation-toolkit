@@ -1,59 +1,62 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+        All notable public-safe changes to `server-validation-toolkit` are documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project follows semantic versioning.
+        This project follows a simple release-note format focused on hardware validation utility, safety boundaries, parser behavior, documentation, and maintenance workflow.
 
-## [1.0.0] - 2026-06-04
+        ## [Unreleased]
 
-### Added
+        Planned maintenance areas:
 
-- Added public release baseline.
-- Added `storage-summary` with text and JSON lsblk parsing.
-- Added `ipmi-summary` for `ipmitool sensor list` output.
-- Added `report` command for combined Markdown diagnostic reports.
-- Added additional unit tests for parser behavior and report generation.
-- Expanded README documentation, known limitations, and verification workflow.
+        - Improve parser coverage for additional Linux diagnostic output variants.
+        - Add more public-safe synthetic examples.
+        - Prepare package publishing checks.
+        - Improve release automation and documentation.
+        - Keep all examples synthetic and safe for public repositories.
 
-### Changed
+        ## [1.0.1] - 2026-06-08
 
-- Kept existing `collect`, `sanitize`, `package`, and `pcie-summary` behavior compatible.
-- Added `lsblk_json` to the default collector command set for more stable storage parsing.
+        Maintenance release direction for public project readiness.
 
-## [0.2.0] - 2026-06-04
+        ### Added
 
-### Added
+        - Added PCIe parser test coverage for missing link fields, redacted identifiers, domain-prefixed BDF addresses, bridge devices, and degraded link speed or width cases.
+        - Added a public-safe sanitized diagnostic bundle example under `examples/sanitized_diagnostic_bundle/`.
+        - Added generated PCIe, storage, and IPMI Markdown summaries for the sanitized example bundle.
+        - Added a generated Markdown diagnostic report for the sanitized example bundle.
+        - Added `docs/ai_maintenance_workflow.md` to document how AI coding agents can assist project maintenance.
 
-- Added storage hardware device summary parser for `lsblk` text outputs.
-- Introduced `storage-summary` subcommand to the core CLI system.
-- Added automated unit tests covering valid and malformed block storage outputs.
+        ### Changed
 
-## [0.1.2] - 2026-06-04
+        - Extended PCIe BDF parsing to support `lspci -D` style domain-prefixed BDF addresses.
+        - Documented AI-assisted maintenance boundaries and required human review workflow.
 
-### Changed
+        ### Safety
 
-- Added explicit exception documentation to archive helpers.
-- Documented why diagnostic command execution uses `check=False`.
-- Expanded README documentation with known limitations and verification steps.
-- Kept existing CLI behavior unchanged.
+        - Preserved the non-destructive project boundary.
+        - No firmware flashing, BIOS/BMC setting changes, reboot, power-cycle, or remote upload behavior was added.
+        - No company, customer, internal platform, real log, serial number, MAC address, IP address, hostname, firmware version, or vendor-private procedure data was added.
 
-## [0.1.1] - 2026-06-04
+        ## [1.0.0] - 2026-06-04
 
-### Fixed
+        Initial public release baseline.
 
-- Improved sanitizer directory traversal from repeated full scans to one precomputed text-file set.
-- Replaced `Path.rename()` with `shutil.move()` in sanitized collection flow for safer filesystem boundary handling.
-- Added regression tests for sanitizer traversal behavior and sanitized collection movement.
+        ### Added
 
-## [0.1.0] - 2026-06-04
+        - Added Ubuntu Server diagnostic log collection.
+        - Added best-effort sanitization for common sensitive identifiers.
+        - Added diagnostic bundle packaging.
+        - Added PCIe summary generation.
+        - Added storage summary generation.
+        - Added IPMI sensor summary generation.
+        - Added combined Markdown diagnostic report generation.
+        - Added CLI entry point through `svt`.
+        - Added pytest and ruff validation workflow.
+        - Added GitHub Actions CI for supported Python versions.
 
-### Added
+        ### Safety
 
-- Initial public release.
-- Added Ubuntu Server diagnostic collector.
-- Added best-effort sanitizer for sensitive identifiers.
-- Added archive packaging command.
-- Added PCIe summary parser for `lspci` output.
-- Added GitHub Actions CI workflow.
-- Added issue and pull request templates.
+        - Defined the project as public open-source use only.
+        - Excluded company-specific platform data, customer logs, private hardware topology, internal firmware versions, and proprietary validation procedures.
+        - Documented non-destructive behavior in README.md.
+        
