@@ -66,7 +66,10 @@ class IpmiSensorRecord:
     status: str
 
 
-BDF_LINE_PATTERN = re.compile(r"^(?P<bdf>[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\.[0-7])\s+(?P<desc>.+)$")
+BDF_LINE_PATTERN = re.compile(
+    r"^(?P<bdf>(?:[0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:"
+    r"[0-9a-fA-F]{2}\.[0-7])\s+(?P<desc>.+)$"
+)
 LNKCAP_PATTERN = re.compile(r"LnkCap:.*Speed\s+(?P<speed>[^,]+),\s+Width\s+(?P<width>x\d+)")
 LNKSTA_PATTERN = re.compile(r"LnkSta:.*Speed\s+(?P<speed>[^,]+),\s+Width\s+(?P<width>x\d+)")
 SIZE_PATTERN = re.compile(r"^\d+(?:\.\d+)?[KMGTP]?$", re.IGNORECASE)
