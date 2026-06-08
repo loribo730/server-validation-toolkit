@@ -1,36 +1,41 @@
 # Contributing
 
-Contributions are welcome.
+Thank you for considering a contribution to server-validation-toolkit.
 
-## Scope
+## Public-safe requirement
 
-This project accepts generic Ubuntu Server diagnostic tooling, parser improvements,
-sanitization improvements, tests, and documentation updates.
+Do not include company, customer, private platform, real diagnostic log, serial number, real MAC address, real IP address, hostname, credential, token, or vendor-private data.
 
-Please do not submit:
+Use fake or sanitized examples only.
 
-- Customer logs.
-- Internal company logs.
-- Private hardware topology.
-- Proprietary firmware data.
-- Non-public validation procedures.
-- Secrets, tokens, IP addresses, MAC addresses, or serial numbers.
+## Contribution workflow
 
-## Development
+1. Open an issue describing the change.
+2. Create a topic branch.
+3. Keep the change small and reviewable.
+4. Run validation before opening a pull request.
+5. Open a pull request and link the related issue.
+
+## Validation
+
+Run source-level validation before submitting changes:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
-pytest
-ruff check .
+python3 -m compileall .
 ```
 
-## Pull requests
+If the repository has tests available, run them before opening a pull request:
 
-A pull request should include:
+```bash
+python3 -m pytest
+```
 
-- A clear reason for the change.
-- Tests when behavior changes.
-- Documentation updates when user-facing behavior changes.
-- Sanitized examples only.
+## AI-assisted changes
+
+AI tools, including Codex, may be used to draft documentation, tests, and maintenance changes.
+AI-assisted output must be reviewed by a human before merge.
+Do not use AI tools to add private company, customer, platform, or diagnostic data.
+
+## Version metadata
+
+Do not change Python version metadata unless compatibility has been tested and intentionally reviewed.
